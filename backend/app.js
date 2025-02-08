@@ -13,11 +13,15 @@ const app = express();
 config({ path: "./config/config.env" });
 
 app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL],
-    method: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true,
-  })
+    cors({
+        origin: [
+            'https://carrier-glide.vercel.app',
+            'http://localhost:5173', // Your local frontend development URL
+        ],
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    })
 );
 
 app.use(cookieParser());
@@ -25,10 +29,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+    })
 );
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
